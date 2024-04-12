@@ -1,12 +1,12 @@
-FROM python:3.11-buster
+FROM python:3.11.6-slim-bookworm
 
-RUN pip install poetry==1.4.2
+RUN pip install poetry==1.2.0
+RUN apt update -y
 
-WORKDIR /app
+COPY . /mStreaming
 
-COPY pyproject.toml poetry.lock ./
-COPY mSteaming ./mSteaming
-
+WORKDIR /mStreaming
 RUN poetry install --without dev
 
-ENTRYPOINT ["poetry", "run", "python", "-m", "annapurna.main"]
+WORKDIR /mStreaming
+ENTRYPOINT ["poetry", "run", "uvicorn","main:app", "--reload"]
