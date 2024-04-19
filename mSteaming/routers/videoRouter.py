@@ -46,7 +46,7 @@ async def stream(name: str, request: Request):
         videoService.stream_read_file(video_id, start, length),
         status_code=206,
         headers=header_dict,
-        media_type="videoRouterlication/octet-stream",
+        media_type="application/octet-stream",
     )
 
 @videoRouter.post("/upload")
@@ -57,6 +57,7 @@ async def upload_file(
     quality: Annotated[str, Form()],
     file: UploadFile,
 ):
+
     if file.size >= 10000000000:
         raise HTTPException(status_code=500, detail="File too big to be processed")
 
