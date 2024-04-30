@@ -6,21 +6,26 @@ from fastapi import File,Form, Request, UploadFile, HTTPException
 from fastapi.responses import StreamingResponse
 from typing import Annotated, Dict, List
 from config import settings
-from service import videoService
+from service import videoService, fileService
 from models import videoMetadata
 
 videoRouter =  APIRouter()
 videoService = videoService()
+fs = fileService(settings)
 
 @videoRouter.get("/")
 async def root(request: Request):
-    return {}
+    files = fs.listVideos()
+    video_files = [x.replace(".mp4","") for x in files if "mp4" in x]
+    return settings.templates.TemplateResponse(
+        request=request, name="index.html", context={"videos": video_files}
+    )
 
 
 @videoRouter.get("/videos/{name}")
 async def video(name: str, request: Request):
     return settings.templates.TemplateResponse(
-        request=request, name="index.html", context={"name": name}
+        request=request, name="video.html", context={"name": name}
     )
 
 

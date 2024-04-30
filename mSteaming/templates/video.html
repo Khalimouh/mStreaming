@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -22,11 +21,9 @@
   </head>
 
   <body>
-        <p> Videos </p>
-         <ul id="navigation">
-            {% for item in videos %}
-            <li><a href="/videos/{{item}}"> {{item}}</a></li>
-            {% endfor %}
-        </ul>
+        <h2>{{name}}</h2>
+    <video id="videoPlayer" width="650" controls muted="muted">
+            <source src="/stream/{{name}}" type="video/mp4" />
+    </video>
   </body>
 </html>
