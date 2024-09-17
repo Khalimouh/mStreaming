@@ -5,6 +5,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
 from routers.videoRouter import videoRouter
+from middlewares import TimeWindowRateLimiter
 
 
 @asynccontextmanager
@@ -15,6 +16,7 @@ async def app_lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=app_lifespan)
 app.add_middleware(GZipMiddleware, minimum_size=1000)
+app.add_middleware(TimeWindowRateLimiter, max_requests=200, window=60)
 
 app.add_middleware(
     CORSMiddleware,
@@ -23,10 +25,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 app.include_router(videoRouter)
-
-
-
-
-
 

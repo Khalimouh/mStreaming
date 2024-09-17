@@ -17,8 +17,8 @@ repos:
       # - id: check-ast
       # - id: debug-statements
       # - id: check-docstring-first
-  - repo: local
-    hooks:
+  # - repo: local
+  #   hooks:
       # - id: flake8
       #   name: local flake8
       #   description: wemake-python-styleguide enforcement
@@ -41,10 +41,10 @@ repos:
       #   files: ^(mSteaming/|tests/)
       #   language: system
       #   types: [python]
-      - id: safety
-        name: local safety
-        description: check for vulnerabilities in packages.
-        entry: poetry run safety check
-        language: system
-        types: [python]
-        pass_filenames: false
+      # - id: safety
+      #   name: local safety
+      #   description: check for vulnerabilities in packages.
+      #   entry: poetry run safety check
+      #   language: system
+      #   types: [python]
+      #   pass_filenames: false

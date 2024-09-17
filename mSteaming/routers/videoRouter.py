@@ -16,6 +16,7 @@ fs = fileService(settings)
 @videoRouter.get("/")
 async def root(request: Request):
     files = fs.listVideos()
+    #TODO: remove all extentions today only mp4 is supported
     video_files = [x.replace(".mp4","") for x in files if "mp4" in x]
     return settings.templates.TemplateResponse(
         request=request, name="index.html", context={"videos": video_files}
@@ -54,31 +55,30 @@ async def stream(name: str, request: Request):
         media_type="application/octet-stream",
     )
 
-@videoRouter.post("/upload")
-async def upload_file(
-    request: Request,
-    name: Annotated[str, Form()],
-    format: Annotated[str, Form()],
-    quality: Annotated[str, Form()],
-    file: UploadFile,
-):
+# @videoRouter.post("/upload")
+# async def upload_file(
+#     request: Request,
+#     name: Annotated[str, Form()],
+#     format: Annotated[str, Form()],
+#     quality: Annotated[str, Form()],
+#     file: UploadFile,
+# ):
+#     if file.size >= 10000000000:
+#         raise HTTPException(status_code=500, detail="File too big to be processed")
 
-    if file.size >= 10000000000:
-        raise HTTPException(status_code=500, detail="File too big to be processed")
+#     current_video_metadata = videoMetadata(name,format,quality)
 
-    current_video_metadata = videoMetadata(name,format,quality)
+#     print(videoService.generate_video_formats_qualities(current_video_metadata))
 
-    print(videoService.generate_video_formats_qualities(current_video_metadata))
+#     # write metadata to DB
 
-    # write metadata to DB
+#     # Read file
 
-    # Read file
-
-    # run coversion tasks
-    # write results to file storage
-
+#     # run coversion tasks
+#     # write results to file storage
 
 
 
-    await file.close()
-    return {}
+
+#     await file.close()
+#     return {}
